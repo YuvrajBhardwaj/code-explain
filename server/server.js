@@ -10,22 +10,32 @@ const app = express();
 // 🧱 Security middleware
 app.use(helmet());
 
-// ✅ CORS setup — include both local + deployed frontend
-app.use(
-  cors({
-    origin: [
-      process.env.FRONTEND_URL || 'http://localhost:3000',
-      'https://code-explain-teal.vercel.app',
-    ],
-    credentials: true,
-    methods: ['GET', 'POST', 'OPTIONS'],
-  })
-);
+// ✅ Allowed frontend origins
+const allowedOrigins = [
+  'http://localhost:3000',               // local dev
+  'https://code-explain-teal.vercel.app' // deployed frontend
+];
+
+// ✅ CORS setup with dynamic origin checking
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'OPTIONS'],
+}));
+
+// ✅ Handle preflight OPTIONS requests
+app.options('*', cors());
 
 // 🚦 Rate limiting
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100,
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100,                 // limit each IP to 100 requests per windowMs
   message: "Too many requests, please try again later.",
 });
 app.use(limiter);
@@ -58,8 +68,7 @@ app.post("/api/explain-code", async (req, res) => {
       {
         headers: {
           Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
-          "HTTP-Referer":
-            process.env.FRONTEND_URL || "https://code-explain-teal.vercel.app",
+          "HTTP-Referer": process.env.FRONTEND_URL || "https://code-explain-teal.vercel.app",
           "X-Title": "Code Explainer AI",
         },
       }
