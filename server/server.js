@@ -15,10 +15,10 @@ app.use(
   cors({
     origin: [
       process.env.FRONTEND_URL || 'http://localhost:3000',
-      'https://code-explain-teal.vercel.app/api',
+      'https://code-explain-teal.vercel.app',
     ],
     credentials: true,
-    methods: ['GET', 'POST'],
+    methods: ['GET', 'POST', 'OPTIONS'],
   })
 );
 
