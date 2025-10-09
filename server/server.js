@@ -12,8 +12,8 @@ app.use(helmet());
 
 // ✅ Allowed frontend origins
 const allowedOrigins = [
-  'http://localhost:3000',               // local dev
-  'https://code-explain-teal.vercel.app' // deployed frontend
+  'http://localhost:3000',
+  'https://code-explain-teal.vercel.app'
 ];
 
 // ✅ CORS setup with dynamic origin checking
