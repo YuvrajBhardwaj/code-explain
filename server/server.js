@@ -13,7 +13,7 @@ app.use(helmet());
 // ✅ Allowed frontend origins
 const allowedOrigins = [
   'http://localhost:5173',
-  'https://code-explain-teal.vercel.app'
+  'https://code-explain-blue.vercel.app/'
 ];
 
 // ✅ CORS setup with dynamic origin checking
