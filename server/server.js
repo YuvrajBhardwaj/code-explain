@@ -13,6 +13,7 @@ app.use(helmet());
 // ✅ Allowed frontend origins
 const allowedOrigins = [
   'http://localhost:3000',
+  'http://localhost:5173',
   'https://code-explain-teal.vercel.app'
 ];
 
@@ -30,7 +31,7 @@ app.use(cors({
 }));
 
 // ✅ Handle preflight OPTIONS requests
-app.options('*', cors());
+app.options('/*path', cors());
 
 // 🚦 Rate limiting
 const limiter = rateLimit({
