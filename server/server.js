@@ -12,7 +12,6 @@ app.use(helmet());
 
 // ✅ Allowed frontend origins
 const allowedOrigins = [
-  'http://localhost:3000',
   'http://localhost:5173',
   'https://code-explain-teal.vercel.app'
 ];
