@@ -30,7 +30,7 @@ app.use(cors({
 }));
 
 // ✅ Handle preflight OPTIONS requests
-app.options('*', cors());
+app.options('/*', cors());
 
 // 🚦 Rate limiting
 const limiter = rateLimit({
